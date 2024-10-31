@@ -77,50 +77,60 @@ export default function Home() {
   };
 
   return (
-    <main className="h-[80%] flex">
+    <main className="h-[100%] flex">
       {/* Desktop left section - Kitchen */}
+
       <div
         id="kitchen"
-        className="flex h-full w-full lg:w-1/2 bg-gray-400 flex-col justify-end items-center gap-4 px-8"
+        className="flex h-full w-full lg:w-1/3 bg-[#ded472] flex-col"
       >
+        <div id="ceiling" className="h-[10%] w-full bg-gray-800"></div>
+
         <div
-          id="shelf"
-          className="h-[25%] w-full lg:w-1/2 cursor-pointer relative overflow-hidden"
-          onClick={() => handleOpenPopup("shelf")}
+          id="container"
+          className="h-[80%] w-full flex flex-col justify-end items-center px-8"
         >
-          <img
-            src="/images/shelf.jpg"
-            alt="Shelf"
-            className="w-full h-full object-fill"
-          />
+          <div
+            id="shelf"
+            className="h-[25%] w-2/3 lg:w-1/2 cursor-pointer relative overflow-hidden mb-4"
+            onClick={() => handleOpenPopup("shelf")}
+          >
+            <img
+              src="/images/shelf.jpg"
+              alt="Shelf"
+              className="w-full h-full object-fill"
+            />
+          </div>
+          <div
+            id="fridge"
+            className="h-[40%] w-2/3 lg:w-1/2 cursor-pointer relative overflow-hidden"
+            onClick={() => handleOpenPopup("fridge")}
+          >
+            <img
+              src="/images/fridge.png"
+              alt="Shelf"
+              className="w-full h-full object-fill"
+            />
+          </div>
+          <div
+            id="freezer"
+            className="h-[25%] w-2/3 lg:w-1/2 cursor-pointer relative overflow-hidden"
+            onClick={() => handleOpenPopup("freezer")}
+          >
+            <img
+              src="/images/fridge.png"
+              alt="Shelf"
+              className="w-full h-full object-fill"
+            />
+          </div>
         </div>
-        <div
-          id="fridge"
-          className="h-[40%] w-full lg:w-1/2 cursor-pointer relative overflow-hidden"
-          onClick={() => handleOpenPopup("fridge")}
-        >
-          <img
-            src="/images/fridge.png"
-            alt="Shelf"
-            className="w-full h-full object-fill"
-          />
-        </div>
-        <div
-          id="freezer"
-          className="h-[25%] w-full lg:w-1/2 cursor-pointer relative overflow-hidden"
-          onClick={() => handleOpenPopup("freezer")}
-        >
-          <img
-            src="/images/fridge.png"
-            alt="Shelf"
-            className="w-full h-full object-fill"
-          />
-        </div>
+
+        <div id="floor" className="h-[10%] w-full bg-gray-800"></div>
       </div>
 
       <div
         id="recipe-generator"
-        className="hidden lg:flex h-full w-1/2 bg-gray-200 flex-col justify-center items-center gap-4 px-8"
+        className="hidden lg:flex h-full w-2/3 bg-gray-200 flex-col justify-center items-center gap-4 px-8"
       >
         <h2 className="text-xl font-bold mb-4">Recipe Generator</h2>
         <div className="border p-4 h-40 mb-4 overflow-y-auto rounded">
