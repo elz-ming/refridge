@@ -14,8 +14,6 @@ export default function SignIn() {
     email: "",
     password: "",
   });
-  const [error, setError] = useState<string | null>(null);
-
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setFormData((prevData) => ({
@@ -40,11 +38,13 @@ export default function SignIn() {
         router.push("/");
       } else {
         const errorData = await response.json();
-        setError(errorData.error || "An error occurred during login.");
+        console.warn(
+          "Signup error:",
+          errorData.error || "An error occurred during signup."
+        );
       }
     } catch (error) {
-      console.error("Error:", error);
-      setError("An unexpected error occurred.");
+      console.error("Unexpected error during signin:", error);
     }
   };
 
