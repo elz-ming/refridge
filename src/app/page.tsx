@@ -20,6 +20,16 @@ export default function Home() {
     freezer: [] as FoodItem[],
   });
 
+  // Temporary
+  const recipes = [
+    "1. Combine 200g pasta\n2. Add 2 cups of tomato sauce\n3. Top with cheese\n4. Serve hot",
+    "1. Mix 100g of rice\n2. Stir-fry with vegetables\n3. Add soy sauce\n4. Garnish with sesame seeds",
+    "1. Grill 200g chicken breast\n2. Add spices and herbs\n3. Serve with steamed vegetables\n4. Drizzle with lemon juice",
+  ];
+
+  const [recipeIndex, setRecipeIndex] = useState(0);
+  const [recipe, setRecipe] = useState<string | null>(null);
+
   // Handler to open the popup for each section
   const handleOpenPopup = (storage: FoodStorage) => setActiveStorage(storage);
   const handleClosePopup = () => setActiveStorage(null);
@@ -53,32 +63,88 @@ export default function Home() {
     }
   };
 
+  // Recipe generation handler
+  const handleGenerateRecipe = () => {
+    setRecipe(recipes[recipeIndex]); // Set the current recipe based on index
+    setRecipeIndex((recipeIndex + 1) % recipes.length); // Cycle to the next recipe index
+  };
+
+  const handleSaveRecipe = () => {
+    if (recipe) {
+      alert("Recipe saved!");
+      // Add save logic here if needed.
+    }
+  };
+
   return (
-    <main className="h-[80%]">
+    <main className="h-[80%] flex">
+      {/* Desktop left section - Kitchen */}
       <div
         id="kitchen"
-        className="h-full w-full lg:w-1/2 bg-gray-100 flex flex-col justify-end items-center gap-4 px-8"
+        className="flex h-full w-full lg:w-1/2 bg-gray-400 flex-col justify-end items-center gap-4 px-8"
       >
         <div
           id="shelf"
-          className="h-[20%] w-full lg:w-1/2 bg-[#7B672F]"
+          className="h-[25%] w-full lg:w-1/2 cursor-pointer relative overflow-hidden"
           onClick={() => handleOpenPopup("shelf")}
         >
-          Shelf
+          <img
+            src="/images/shelf.jpg"
+            alt="Shelf"
+            className="w-full h-full object-fill"
+          />
         </div>
         <div
           id="fridge"
-          className="h-[40%] w-full lg:w-1/2 bg-[#B8B8B8]"
+          className="h-[40%] w-full lg:w-1/2 cursor-pointer relative overflow-hidden"
           onClick={() => handleOpenPopup("fridge")}
         >
-          Fridge
+          <img
+            src="/images/fridge.png"
+            alt="Shelf"
+            className="w-full h-full object-fill"
+          />
         </div>
         <div
           id="freezer"
-          className="h-[20%] w-full lg:w-1/2 bg-[#B8B8B8]"
+          className="h-[25%] w-full lg:w-1/2 cursor-pointer relative overflow-hidden"
           onClick={() => handleOpenPopup("freezer")}
         >
-          Freezer
+          <img
+            src="/images/fridge.png"
+            alt="Shelf"
+            className="w-full h-full object-fill"
+          />
+        </div>
+      </div>
+
+      <div
+        id="recipe-generator"
+        className="hidden lg:flex h-full w-1/2 bg-gray-200 flex-col justify-center items-center gap-4 px-8"
+      >
+        <h2 className="text-xl font-bold mb-4">Recipe Generator</h2>
+        <div className="border p-4 h-40 mb-4 overflow-y-auto rounded">
+          {recipe ? (
+            <pre>{recipe}</pre>
+          ) : (
+            <p className="text-gray-500">No recipe generated yet.</p>
+          )}
+        </div>
+        <div className="flex gap-4">
+          <button
+            onClick={handleGenerateRecipe}
+            className="bg-blue-500 text-white px-4 py-2 rounded"
+          >
+            Generate Recipe
+          </button>
+          {recipe && (
+            <button
+              onClick={handleSaveRecipe}
+              className="bg-green-500 text-white px-4 py-2 rounded"
+            >
+              Save Recipe
+            </button>
+          )}
         </div>
       </div>
       {activeStorage && (
