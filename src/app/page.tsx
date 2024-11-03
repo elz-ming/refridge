@@ -1,24 +1,59 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Popup from "./components/Popup";
+import { Food } from "./models/Food";
+import { useRouter } from "next/navigation";
+import { log } from "console";
 
 type FoodStorage = "shelf" | "fridge" | "freezer";
 
-interface FoodItem {
-  name: string;
-  description: string;
-  expiryDate: string;
-  type: "solid" | "liquid";
-}
 export default function Home() {
   const [activeStorage, setActiveStorage] = useState<FoodStorage | null>(null);
+  const [foods, setFoods] = useState<Food[]>([]);
+  const [isLoggedIn, setIsLoggedIn] = useState(false); // Track login status
+  const router = useRouter();
 
-  const [foodLists, setFoodLists] = useState({
-    shelf: [] as FoodItem[],
-    fridge: [] as FoodItem[],
-    freezer: [] as FoodItem[],
-  });
+  useEffect(() => {
+    // Check if user is logged in by calling an API to check session
+    const checkSession = async () => {
+      const response = await fetch("/api/auth/session");
+      if (response.ok) {
+        const data = await response.json();
+        console.log(data);
+        setIsLoggedIn(data.isLoggedIn);
+      } else {
+        setIsLoggedIn(false);
+      }
+    };
+    checkSession();
+  }, []);
+
+  const handleLoginLogout = () => {
+    if (isLoggedIn) {
+      // Log out by clearing session and redirecting
+      fetch("/api/auth/signout", { method: "DELETE" }).then(() => {
+        setIsLoggedIn(false);
+        router.push("/signin"); // Redirect to login page
+      });
+    } else {
+      // Redirect to login page
+      router.push("/signin");
+    }
+  };
+
+  useEffect(() => {
+    const fetchFoods = async () => {
+      if (activeStorage) {
+        const response = await fetch(`/api/home/${activeStorage}`);
+        if (response.ok) {
+          const foods: Food[] = await response.json();
+          setFoods(foods);
+        }
+      }
+    };
+    fetchFoods();
+  }, [activeStorage]);
 
   // Temporary
   const recipes = [
@@ -34,32 +69,56 @@ export default function Home() {
   const handleOpenPopup = (storage: FoodStorage) => setActiveStorage(storage);
   const handleClosePopup = () => setActiveStorage(null);
 
-  const handleAddFood = (item: FoodItem) => {
+  const handleAddFood = async (item: Food) => {
+    if (!isLoggedIn) {
+      router.push("/signin");
+    }
+
     if (activeStorage) {
-      setFoodLists((prevLists) => ({
-        ...prevLists,
-        [activeStorage]: [...prevLists[activeStorage], item],
-      }));
+      const response = await fetch(`/api/home/${activeStorage}`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(item),
+      });
+      if (response.ok) {
+        setFoods((prevItems) => [...prevItems, item]);
+      }
     }
   };
 
-  const handleDeleteFood = (index: number) => {
+  const handleDeleteFood = async (index: number) => {
+    if (!isLoggedIn) {
+      router.push("/signin");
+    }
+
     if (activeStorage) {
-      setFoodLists((prevLists) => ({
-        ...prevLists,
-        [activeStorage]: prevLists[activeStorage].filter((_, i) => i !== index),
-      }));
+      const response = await fetch(`./api/home/${activeStorage}`, {
+        method: "DELETE",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ index }), // Pass the index or unique ID
+      });
+      if (response.ok) {
+        setFoods((prevItems) => prevItems.filter((_, i) => i !== index));
+      }
     }
   };
 
-  const handleEditFood = (index: number, updatedItem: FoodItem) => {
+  const handleEditFood = async (index: number, updatedItem: Food) => {
+    if (!isLoggedIn) {
+      router.push("/signin");
+    }
+
     if (activeStorage) {
-      setFoodLists((prevLists) => ({
-        ...prevLists,
-        [activeStorage]: prevLists[activeStorage].map((item, i) =>
-          i === index ? updatedItem : item
-        ),
-      }));
+      const response = await fetch(`./api/home/${activeStorage}`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ index, updatedItem }),
+      });
+      if (response.ok) {
+        setFoods((prevItems) =>
+          prevItems.map((item, i) => (i === index ? updatedItem : item))
+        );
+      }
     }
   };
 
@@ -78,8 +137,17 @@ export default function Home() {
 
   return (
     <main className="h-[100%] flex">
-      {/* Desktop left section - Kitchen */}
+      {/* Login/Logout Button */}
+      <div className="absolute top-4 right-4">
+        <button
+          onClick={handleLoginLogout}
+          className="px-4 py-2 bg-blue-500 text-white rounded"
+        >
+          {isLoggedIn ? "Log Out" : "Log In"}
+        </button>
+      </div>
 
+      {/* Desktop left section - Kitchen */}
       <div
         id="kitchen"
         className="flex h-full w-full lg:w-1/3 bg-[#ded472] flex-col"
@@ -160,7 +228,7 @@ export default function Home() {
       {activeStorage && (
         <Popup
           storage={activeStorage}
-          items={foodLists[activeStorage]}
+          items={foods}
           onClose={handleClosePopup}
           onAddFood={handleAddFood}
           onDeleteFood={handleDeleteFood}

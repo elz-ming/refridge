@@ -29,7 +29,7 @@ export default function SignUp() {
     e.preventDefault();
 
     try {
-      const response = await fetch("../api/signup", {
+      const response = await fetch("../api/auth/signup", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -101,6 +101,15 @@ export default function SignUp() {
               Sign Up
             </button>
           </form>
+          <p className="text-center text-gray-700 mt-4">
+            Already have an account?{" "}
+            <span
+              onClick={() => router.push("/signin")}
+              className="text-blue-500 cursor-pointer hover:underline"
+            >
+              Click here to sign in!
+            </span>
+          </p>
         </div>
       </main>
       <footer className="h-[10%] w-full bg-gray-800"></footer>

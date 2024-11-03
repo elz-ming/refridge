@@ -25,7 +25,7 @@ export default function SignIn() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      const response = await fetch("../api/signin", {
+      const response = await fetch("../api/auth/signin", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -86,6 +86,15 @@ export default function SignIn() {
               Sign In
             </button>
           </form>
+          <p className="text-center text-gray-700 mt-4">
+            Don't have an account?{" "}
+            <span
+              onClick={() => router.push("/signup")}
+              className="text-blue-500 cursor-pointer hover:underline"
+            >
+              Click here to sign up!
+            </span>
+          </p>
         </div>
       </main>
       <footer className="h-[10%] w-full bg-gray-800"></footer>

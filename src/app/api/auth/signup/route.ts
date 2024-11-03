@@ -1,6 +1,8 @@
-import { getMongoClient } from "../../lib/mongodb";
+import { getMongoClient } from "../../../lib/mongodb";
 import bcrypt from "bcrypt";
-import { User } from "../../models/User";
+import { User } from "../../../models/User";
+import { Fridge } from "../../../models/Fridge";
+import { ObjectId } from "mongodb";
 
 const saltRounds = 10;
 
@@ -34,11 +36,22 @@ export async function POST(request: Request) {
 
     // Insert the new user into the "user" collection
     const result = await db.collection("user").insertOne(newUser);
+    const userId = result.insertedId;
+
+    const newFridge: Omit<Fridge, "_id"> = {
+      ownedBy: userId,
+      shelf: [],
+      fridge: [],
+      freezer: [],
+    };
+
+    // Insert the fridge into the "fridges" collection
+    await db.collection("fridge").insertOne(newFridge);
 
     // Send a success response
     return new Response(
       JSON.stringify({
-        message: "User created successfully",
+        message: "User and fridgecreated successfully",
         userId: result.insertedId,
       }),
       { status: 201, headers: { "Content-Type": "application/json" } }

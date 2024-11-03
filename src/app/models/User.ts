@@ -5,4 +5,5 @@ export interface User {
   name: string;
   email: string;
   password: string;
+  fridgeId?: ObjectId; // Reference to the user's fridge
 }

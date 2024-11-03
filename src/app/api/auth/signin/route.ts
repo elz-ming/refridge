@@ -1,6 +1,13 @@
-import { getMongoClient } from "../../lib/mongodb";
+import { getSession } from "../../../lib/session";
+import { getMongoClient } from "../../../lib/mongodb";
 import bcrypt from "bcrypt";
-import { User } from "../../models/User";
+import { User } from "../../../models/User";
+
+async function setCookie(id: string) {
+  const loginSession = await getSession();
+  loginSession.id = id;
+  await loginSession.save();
+}
 
 export async function POST(request: Request) {
   try {
@@ -34,6 +41,9 @@ export async function POST(request: Request) {
         }
       );
     }
+
+    // Set session data for the user
+    await setCookie(user._id.toString());
 
     // If successful, return a success response
     return new Response(JSON.stringify({ message: "Login successful" }), {

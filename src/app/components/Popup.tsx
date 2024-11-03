@@ -1,19 +1,13 @@
 import React, { useState } from "react";
-
-interface FoodItem {
-  name: string;
-  description: string;
-  expiryDate: string;
-  type: "solid" | "liquid";
-}
+import { Food } from "../models/Food";
 
 interface PopupProps {
   storage: "shelf" | "fridge" | "freezer";
-  items: FoodItem[];
+  items: Food[];
   onClose: () => void;
-  onAddFood: (item: FoodItem) => void;
+  onAddFood: (item: Food) => void;
   onDeleteFood: (index: number) => void;
-  onEditFood: (index: number, item: FoodItem) => void;
+  onEditFood: (index: number, item: Food) => void;
 }
 
 const Popup: React.FC<PopupProps> = ({
@@ -30,7 +24,7 @@ const Popup: React.FC<PopupProps> = ({
     null
   );
 
-  const [newFood, setNewFood] = useState<FoodItem>({
+  const [newFood, setNewFood] = useState<Food>({
     name: "",
     description: "",
     expiryDate: "",
