@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import { getSession } from "../../../lib/session";
 
-export async function DELETE(request: Request) {
+export async function DELETE() {
   const headers = new Headers();
   headers.set("Cache-Control", "no-cache");
 

@@ -2,7 +2,6 @@ import { getMongoClient } from "../../../lib/mongodb";
 import bcrypt from "bcrypt";
 import { User } from "../../../models/User";
 import { Fridge } from "../../../models/Fridge";
-import { ObjectId } from "mongodb";
 
 const saltRounds = 10;
 

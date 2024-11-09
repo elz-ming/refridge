@@ -18,7 +18,7 @@ export async function POST(request: Request) {
     const client = await getMongoClient();
     const db = client.db("recipe_db");
 
-    // Find the user by email
+    // Step 1 : Verify user credentials
     const user = await db.collection<User>("user").findOne({ email });
     if (!user) {
       return new Response(
@@ -42,7 +42,7 @@ export async function POST(request: Request) {
       );
     }
 
-    // Set session data for the user
+    // Step 2: Set session data for the user and unique ingredients
     await setCookie(user._id.toString());
 
     // If successful, return a success response

@@ -3,30 +3,6 @@ import { getMongoClient } from "../../../lib/mongodb";
 import { getSession } from "../../../lib/session";
 import { ObjectId } from "mongodb";
 
-export async function GET(
-  request: NextRequest,
-  context: { params: { section: string } }
-) {
-  const { section } = await context.params;
-
-  const session = await getSession();
-  const userId = new ObjectId(session.id);
-
-  const client = await getMongoClient();
-  const db = client.db("recipe_db");
-
-  const fridge = await db.collection("fridge").findOne({ ownedBy: userId });
-
-  if (!fridge || !fridge[section]) {
-    return NextResponse.json(
-      { error: "Section not found or empty" },
-      { status: 404 }
-    );
-  }
-
-  return NextResponse.json(fridge[section]);
-}
-
 export async function POST(
   req: NextRequest,
   context: { params: { section: string } }
