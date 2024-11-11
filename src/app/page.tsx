@@ -223,7 +223,14 @@ export default function Home() {
 
       if (response.ok) {
         const data = await response.json();
-        setRecipe(data);
+        const recipeData = data.data;
+        const formattedRecipe: Recipe = {
+          title: recipeData.title || "Untitled Recipe",
+          image_url: recipeData.image_url || "",
+          ingredients: recipeData.ingredients || [],
+          steps: recipeData.steps || [],
+        };
+        setRecipe(formattedRecipe);
       } else {
         console.warn("Failed to generate recipe.");
       }
@@ -375,9 +382,34 @@ export default function Home() {
         </div>
 
         {/* Recipe Display */}
-        <div id="recipe-display">
-          <img src={recipe.image_url} />
-        </div>
+        {recipe.image_url != "" && (
+          <div id="recipe-display" className="mt-8">
+            <h2 className="text-2xl font-bold mb-4">{recipe.title}</h2>
+            <img
+              src={recipe.image_url}
+              alt={recipe.title}
+              className="mb-4 max-w-full h-auto"
+            />
+            <div>
+              <h3 className="text-xl font-semibold mb-2">Ingredients:</h3>
+              <ul className="list-disc pl-5">
+                {recipe.ingredients?.map((ingredient, index) => (
+                  <li key={index}>{ingredient}</li>
+                ))}
+              </ul>
+            </div>
+            <div className="mt-4">
+              <h3 className="text-xl font-semibold mb-2">Steps:</h3>
+              <ol className="list-decimal pl-5">
+                {recipe.steps?.map((step, index) => (
+                  <li key={index} className="mb-2">
+                    {step}
+                  </li>
+                ))}
+              </ol>
+            </div>
+          </div>
+        )}
       </div>
       {activeStorage && (
         <Popup

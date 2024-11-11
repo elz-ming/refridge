@@ -1,6 +1,10 @@
 import { SessionOptions, getIronSession } from "iron-session";
 import { cookies } from "next/headers";
 
+interface SessionData {
+  id: string;
+}
+
 const getLoginSessionOptions: SessionOptions = {
   password: String(process.env.NEXT_IRON_COOKIE_PASSWORD),
   cookieName: "login",
@@ -13,5 +17,5 @@ const getLoginSessionOptions: SessionOptions = {
 
 export async function getSession() {
   const cookieStore = await cookies();
-  return getIronSession(cookieStore, getLoginSessionOptions);
+  return getIronSession<SessionData>(cookieStore, getLoginSessionOptions);
 }

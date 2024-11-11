@@ -5,9 +5,9 @@ import { ObjectId } from "mongodb";
 
 export async function POST(
   req: NextRequest,
-  { params }: { params: { section: string } }
+  { params }: { params: Promise<{ section: string }> }
 ) {
-  const { section } = await params;
+  const section = (await params).section;
   const newItem = await req.json();
 
   const session = await getSession();
@@ -25,9 +25,9 @@ export async function POST(
 
 export async function PUT(
   req: NextRequest,
-  { params }: { params: { section: string } }
+  { params }: { params: Promise<{ section: string }> }
 ) {
-  const { section } = await params;
+  const section = (await params).section;
   const { index, updatedItem } = await req.json();
 
   const session = await getSession();
@@ -46,9 +46,9 @@ export async function PUT(
 
 export async function DELETE(
   req: NextRequest,
-  { params }: { params: { section: string } }
+  { params }: { params: Promise<{ section: string }> }
 ) {
-  const { section } = await params;
+  const section = (await params).section;
   const { index } = await req.json();
 
   const session = await getSession();

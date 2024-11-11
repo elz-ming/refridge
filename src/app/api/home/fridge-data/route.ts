@@ -32,7 +32,9 @@ export async function GET() {
     const mainList: string[] = [];
     allDocuments.forEach((doc) => {
       const ingredients = doc.main_ingredients.split(",");
-      mainList.push(...ingredients.map((ingredient) => ingredient.trim()));
+      mainList.push(
+        ...ingredients.map((ingredient: string) => ingredient.trim())
+      );
     });
 
     // Remove duplicates and get the unique ingredients array
