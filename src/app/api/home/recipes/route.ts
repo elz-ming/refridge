@@ -1,5 +1,19 @@
 import { NextRequest, NextResponse } from "next/server";
 
+interface Substitute {
+  ingredient: string;
+  measure: string;
+}
+
+// Define an interface for each ingredient
+interface Ingredient {
+  name: string;
+  measure: string;
+  is_main: boolean;
+  available: boolean;
+  substitutes?: Substitute[];
+}
+
 export async function POST(req: NextRequest) {
   const input = await req.json();
   const substitution = input.suggest_substitution;
@@ -33,20 +47,22 @@ export async function POST(req: NextRequest) {
     // Format the response data as needed
     const output = {
       title: data.data.recipe.recipe_name,
-      ingredients: data.data.recipe.ingredients.map((ingredient: any) => {
-        if (substitution) {
-          if (ingredient.available) {
-            return `${ingredient.name}, ${ingredient.measure}`;
+      ingredients: data.data.recipe.ingredients.map(
+        (ingredient: Ingredient) => {
+          if (substitution) {
+            if (ingredient.available) {
+              return `${ingredient.name}, ${ingredient.measure}`;
+            } else {
+              const substitute = ingredient.substitutes?.[0];
+              return substitute
+                ? `( substitute ) ${ingredient.name}, ${ingredient.measure} -> ${substitute.ingredient}, ${substitute.measure}`
+                : `( missing ) ${ingredient.name}, ${ingredient.measure}`; // No substitute available
+            }
           } else {
-            const substitute = ingredient.substitutes?.[0];
-            return substitute
-              ? `( substitute ) ${ingredient.name}, ${ingredient.measure} -> ${substitute.ingredient}, ${substitute.measure}`
-              : `( missing ) ${ingredient.name}, ${ingredient.measure}`; // No substitute available
+            return `${ingredient.name}, ${ingredient.measure}`;
           }
-        } else {
-          return `${ingredient.name}, ${ingredient.measure}`;
         }
-      }),
+      ),
       steps: data.data.recipe.steps,
       image_url: data.data.recipe.image_url,
     };
