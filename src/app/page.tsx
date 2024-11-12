@@ -14,6 +14,57 @@ interface Recipe {
   image_url: string;
 }
 
+interface HoverImageProps {
+  defaultImage: string;
+  hoverImage: string;
+  altText: string;
+  section: "shelf" | "fridge" | "freezer";
+  handleOpenPopup: (section: "shelf" | "fridge" | "freezer") => void;
+}
+
+function HoverImage({
+  defaultImage,
+  hoverImage,
+  altText,
+  section,
+  handleOpenPopup,
+}: HoverImageProps) {
+  const [isHovered, setIsHovered] = useState(false);
+
+  return (
+    <>
+      <div id={`${section}-title`} className="w-2/5 h-full">
+        <h2
+          className={`flex justify-center w-1/2 cursor-pointer rounded-lg p-2  transform transition-transform duration-300 ${
+            isHovered
+              ? "bg-orange-500 scale-110 text-white shadow-lg text-lg"
+              : "bg-white text-md"
+          }`}
+          onClick={() => handleOpenPopup("shelf")}
+          onMouseEnter={() => setIsHovered(true)}
+          onMouseLeave={() => setIsHovered(false)}
+        >
+          {section.charAt(0).toUpperCase() + section.slice(1)}{" "}
+        </h2>
+      </div>
+      <div
+        id={`${section}-img`}
+        className="w-2/3 lg:w-3/5 h-full cursor-pointer relative overflow-hidden"
+        onClick={() => handleOpenPopup("shelf")}
+      >
+        <img
+          className="w-full h-full object-fill"
+          src={isHovered ? hoverImage : defaultImage}
+          alt={altText}
+          onMouseEnter={() => setIsHovered(true)}
+          onMouseLeave={() => setIsHovered(false)}
+          style={{ transition: "0.3s ease" }}
+        />
+      </div>
+    </>
+  );
+}
+
 export default function Home() {
   const [activeStorage, setActiveStorage] = useState<FoodStorage | null>(null);
   const [fridgeData, setFridgeData] = useState<Record<FoodStorage, Food[]>>({
@@ -206,6 +257,10 @@ export default function Home() {
   }, [mainIngredient, fridgeData]);
 
   const handleGenerateRecipe = async () => {
+    if (!isLoggedIn) {
+      router.push("/signin");
+    }
+
     const payload = {
       main_ingredients: mainIngredient ? [mainIngredient] : [],
       pantry_ingredients: pantryIngredients,
@@ -247,180 +302,180 @@ export default function Home() {
   const handleClosePopup = () => setActiveStorage(null);
 
   return (
-    <main className="h-[100%] flex">
-      {/* Login/Logout Button */}
-      <div className="absolute top-4 right-4">
-        <button
-          onClick={handleLoginLogout}
-          className="px-4 py-2 bg-blue-500 text-white rounded"
-        >
-          {isLoggedIn ? "Log Out" : "Log In"}
-        </button>
-      </div>
-
-      {/* Desktop left section - Kitchen */}
-      <div
-        id="kitchen"
-        className="flex h-full w-full lg:w-1/3 bg-[#ded472] flex-col"
+    <>
+      <header
+        className="flex justify-between
+       items-center w-full h-[10%] px-4 bg-gray-800"
       >
-        <div id="ceiling" className="h-[10%] w-full bg-gray-800"></div>
-
-        <div
-          id="container"
-          className="h-[80%] w-full flex flex-col justify-end items-center px-8"
-        >
-          <div
-            id="shelf"
-            className="h-[25%] w-2/3 lg:w-1/2 cursor-pointer relative overflow-hidden mb-4"
-            onClick={() => handleOpenPopup("shelf")}
-          >
-            <img
-              src="/images/shelf.jpg"
-              alt="Shelf"
-              className="w-full h-full object-fill"
-            />
-          </div>
-          <div
-            id="fridge"
-            className="h-[40%] w-2/3 lg:w-1/2 cursor-pointer relative overflow-hidden"
-            onClick={() => handleOpenPopup("fridge")}
-          >
-            <img
-              src="/images/fridge.png"
-              alt="Shelf"
-              className="w-full h-full object-fill"
-            />
-          </div>
-          <div
-            id="freezer"
-            className="h-[25%] w-2/3 lg:w-1/2 cursor-pointer relative overflow-hidden"
-            onClick={() => handleOpenPopup("freezer")}
-          >
-            <img
-              src="/images/fridge.png"
-              alt="Shelf"
-              className="w-full h-full object-fill"
-            />
-          </div>
-        </div>
-
-        <div id="floor" className="h-[10%] w-full bg-gray-800"></div>
-      </div>
-
-      {/* Recipe Generator */}
-      <div
-        id="recipe-generator"
-        className="hidden lg:flex h-full w-2/3 bg-gray-200 flex-col justify-start items-center gap-4 py-8 px-8"
-      >
-        <h2 className="text-xl font-bold">Recipe Generator</h2>
-        {/* Recipe Configuration */}
-        <div
-          id="recipe-configuration"
-          className="flex w-full justify-between items-start"
-        >
-          {/* Drop Down for Main Ingredient */}
-          <div className="flex gap-2">
-            <label className="flex items-center text-gray-700">
-              Main Ingredient:
-            </label>
-            <div id="dropdown-container" className="flex flex-col">
-              <input
-                type="text"
-                value={inputValue}
-                onChange={(e) => setInputValue(e.target.value)}
-                placeholder="Start typing..."
-                className="border border-gray-300 rounded p-2 focus:outline-none focus:border-blue-500 w-[300px]"
-              />
-              {isDropdownOpen && (
-                <ul className="absolute z-5 bg-white border border-gray-300 w-[300px] max-h-40 mt-10 overflow-y-scroll">
-                  {filteredIngredients.map((ingredient) => {
-                    const isAvailable = fridgeData.shelf
-                      .concat(fridgeData.fridge, fridgeData.freezer)
-                      .some((food) => food.name.toLowerCase() === ingredient);
-                    return (
-                      <li
-                        key={ingredient}
-                        onClick={() => handleIngredientSelect(ingredient)}
-                        className={`h-10 p-2 cursor-pointer hover:bg-gray-200 ${
-                          isAvailable ? "text-black" : "text-gray-400"
-                        }`}
-                      >
-                        {ingredient}
-                        <span
-                          className={`ml-2 ${
-                            isAvailable ? "text-green-600" : "text-gray-400"
-                          }`}
-                        >
-                          {isAvailable ? "Available" : "Unavailable"}
-                        </span>
-                      </li>
-                    );
-                  })}
-                </ul>
-              )}
-            </div>
-          </div>
-          {/* Suggest Substitution Radio Button */}
-          <div className="flex items-start">
-            <label className="flex items-center">
-              <input
-                type="checkbox"
-                checked={suggestSubstitution}
-                onChange={() => setSuggestSubstitution(!suggestSubstitution)} // Toggle true/false
-                className="mr-2"
-              />
-              Suggest substitution
-            </label>
-          </div>
-          {/* Generate Recipe */}
+        {/* Login/Logout Button */}
+        <div></div>
+        <h1 className="text-4xl font-bold text-white">PantryAI</h1>
+        <div className="flex w-auto h-auto">
           <button
-            onClick={handleGenerateRecipe}
-            className="bg-blue-500 text-white px-4 py-2 rounded h-auto"
+            onClick={handleLoginLogout}
+            className="px-4 py-2 bg-blue-500 text-white rounded"
           >
-            Generate Recipe
+            {isLoggedIn ? "Log Out" : "Log In"}
           </button>
         </div>
-
-        {/* Recipe Display */}
-        {recipe.image_url != "" && (
-          <div id="recipe-display" className="mt-8">
-            <h2 className="text-2xl font-bold mb-4">{recipe.title}</h2>
-            <img
-              src={recipe.image_url}
-              alt={recipe.title}
-              className="mb-4 max-w-full h-auto"
+      </header>
+      <main className="h-[85%] flex">
+        {/* Desktop left section - Kitchen */}
+        <div
+          id="kitchen"
+          className="flex h-full w-full lg:w-1/2 flex-col justify-end items-center px-8"
+          style={{
+            backgroundImage:
+              "linear-gradient(to bottom, rgba(255, 255, 255, 0) 50%, rgba(255, 255, 255, 1) 90%), linear-gradient(to right, #fef08a, #facc15)",
+          }}
+        >
+          <div id="shelf-row" className="flex w-5/6 h-[25%]">
+            <HoverImage
+              section="shelf"
+              defaultImage="/images/shelf-close.png"
+              hoverImage="/images/shelf-open.png"
+              altText="Fridge"
+              handleOpenPopup={handleOpenPopup}
             />
-            <div>
-              <h3 className="text-xl font-semibold mb-2">Ingredients:</h3>
-              <ul className="list-disc pl-5">
-                {recipe.ingredients?.map((ingredient, index) => (
-                  <li key={index}>{ingredient}</li>
-                ))}
-              </ul>
-            </div>
-            <div className="mt-4">
-              <h3 className="text-xl font-semibold mb-2">Steps:</h3>
-              <ol className="list-decimal pl-5">
-                {recipe.steps?.map((step, index) => (
-                  <li key={index} className="mb-2">
-                    {step}
-                  </li>
-                ))}
-              </ol>
-            </div>
           </div>
+
+          <div id="fridge-row" className="flex w-5/6 h-[40%]">
+            <HoverImage
+              section="fridge"
+              defaultImage="/images/fridge-close.png"
+              hoverImage="/images/fridge-open.png"
+              altText="Fridge"
+              handleOpenPopup={handleOpenPopup}
+            />
+          </div>
+
+          <div id="freezer-row" className="flex w-5/6 h-[25%]">
+            <HoverImage
+              section="freezer"
+              defaultImage="/images/freezer-close.png"
+              hoverImage="/images/freezer-open.png"
+              altText="Fridge"
+              handleOpenPopup={handleOpenPopup}
+            />
+          </div>
+        </div>
+
+        {/* Desktop right section - Recipe Generator */}
+        <div
+          id="recipe-generator"
+          className="hidden lg:flex h-full w-1/2 bg-gray-200 flex-col justify-start items-center gap-4 py-8 px-8"
+        >
+          <h2 className="text-xl font-bold">Recipe Generator</h2>
+          {/* Recipe Configuration */}
+          <div
+            id="recipe-configuration"
+            className="flex w-full justify-between items-start"
+          >
+            {/* Drop Down for Main Ingredient */}
+            <div className="flex gap-2">
+              <label className="flex items-center text-gray-700">
+                Main Ingredient:
+              </label>
+              <div id="dropdown-container" className="flex flex-col">
+                <input
+                  type="text"
+                  value={inputValue}
+                  onChange={(e) => setInputValue(e.target.value)}
+                  placeholder="Start typing..."
+                  className="border border-gray-300 rounded p-2 focus:outline-none focus:border-blue-500 w-[300px]"
+                />
+                {isDropdownOpen && (
+                  <ul className="absolute z-5 bg-white border border-gray-300 w-[300px] max-h-40 mt-10 overflow-y-scroll">
+                    {filteredIngredients.map((ingredient) => {
+                      const isAvailable = fridgeData.shelf
+                        .concat(fridgeData.fridge, fridgeData.freezer)
+                        .some((food) => food.name.toLowerCase() === ingredient);
+                      return (
+                        <li
+                          key={ingredient}
+                          onClick={() => handleIngredientSelect(ingredient)}
+                          className={`h-10 p-2 cursor-pointer hover:bg-gray-200 ${
+                            isAvailable ? "text-black" : "text-gray-400"
+                          }`}
+                        >
+                          {ingredient}
+                          <span
+                            className={`ml-2 ${
+                              isAvailable ? "text-green-600" : "text-gray-400"
+                            }`}
+                          >
+                            {isAvailable ? "Available" : "Unavailable"}
+                          </span>
+                        </li>
+                      );
+                    })}
+                  </ul>
+                )}
+              </div>
+            </div>
+            {/* Suggest Substitution Radio Button */}
+            <div className="flex items-start">
+              <label className="flex items-center">
+                <input
+                  type="checkbox"
+                  checked={suggestSubstitution}
+                  onChange={() => setSuggestSubstitution(!suggestSubstitution)} // Toggle true/false
+                  className="mr-2"
+                />
+                Suggest substitution
+              </label>
+            </div>
+            {/* Generate Recipe */}
+            <button
+              onClick={handleGenerateRecipe}
+              className="bg-blue-500 text-white px-4 py-2 rounded h-auto"
+            >
+              Generate Recipe
+            </button>
+          </div>
+
+          {/* Recipe Display */}
+          {recipe.image_url != "" && (
+            <div id="recipe-display" className="mt-8">
+              <h3 className="text-2xl font-bold mb-4">{recipe.title}</h3>
+              <img
+                src={recipe.image_url}
+                alt={recipe.title}
+                className="mb-4 max-w-full h-auto"
+              />
+              <div>
+                <h3 className="text-xl font-semibold mb-2">Ingredients:</h3>
+                <ul className="list-disc pl-5">
+                  {recipe.ingredients?.map((ingredient, index) => (
+                    <li key={index}>{ingredient}</li>
+                  ))}
+                </ul>
+              </div>
+              <div className="mt-4">
+                <h3 className="text-xl font-semibold mb-2">Steps:</h3>
+                <ol className="list-decimal pl-5">
+                  {recipe.steps?.map((step, index) => (
+                    <li key={index} className="mb-2">
+                      {step}
+                    </li>
+                  ))}
+                </ol>
+              </div>
+            </div>
+          )}
+        </div>
+        {activeStorage && (
+          <Popup
+            storage={activeStorage}
+            items={foods}
+            onClose={handleClosePopup}
+            onAddFood={handleAddFood}
+            onDeleteFood={handleDeleteFood}
+            onEditFood={handleEditFood}
+          />
         )}
-      </div>
-      {activeStorage && (
-        <Popup
-          storage={activeStorage}
-          items={foods}
-          onClose={handleClosePopup}
-          onAddFood={handleAddFood}
-          onDeleteFood={handleDeleteFood}
-          onEditFood={handleEditFood}
-        />
-      )}
-    </main>
+      </main>
+      <footer className="h-[5%] w-full bg-gray-800"></footer>
+    </>
   );
 }
