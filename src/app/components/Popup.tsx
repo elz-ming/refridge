@@ -116,46 +116,58 @@ const Popup: React.FC<PopupProps> = ({
           <>
             {/* Add Food Form */}
             <div id="inputs" className="flex flex-col gap-4 h-full">
-              <input
-                type="text"
-                placeholder="Name"
-                value={newFood.name}
-                onChange={(e) =>
-                  setNewFood({ ...newFood, name: e.target.value })
-                }
-                className="border p-2 w-full"
-              />
-              <input
-                type="text"
-                placeholder="Description"
-                value={newFood.description}
-                onChange={(e) =>
-                  setNewFood({ ...newFood, description: e.target.value })
-                }
-                className="border p-2 w-full"
-              />
-              <input
-                type="date"
-                placeholder="Expiry Date"
-                value={newFood.expiryDate}
-                onChange={(e) =>
-                  setNewFood({ ...newFood, expiryDate: e.target.value })
-                }
-                className="border p-2 w-full"
-              />
-              <select
-                value={newFood.type}
-                onChange={(e) =>
-                  setNewFood({
-                    ...newFood,
-                    type: e.target.value as "solid" | "liquid",
-                  })
-                }
-                className="border p-2 w-full"
-              >
-                <option value="solid">Solid</option>
-                <option value="liquid">Liquid</option>
-              </select>
+              <label className="flex justify-between items-center gap-2">
+                <span className="w-2/5 font-semibold">Name :</span>
+                <input
+                  type="text"
+                  placeholder="Name"
+                  value={newFood.name}
+                  onChange={(e) =>
+                    setNewFood({ ...newFood, name: e.target.value })
+                  }
+                  className="border p-2 w-full"
+                />
+              </label>
+              <label className="flex items-center gap-2">
+                <span className="w-2/5 font-semibold">Description :</span>
+                <input
+                  type="text"
+                  placeholder="Description"
+                  value={newFood.description}
+                  onChange={(e) =>
+                    setNewFood({ ...newFood, description: e.target.value })
+                  }
+                  className="border p-2 w-full"
+                />
+              </label>
+              <label className="flex items-center gap-2">
+                <span className="w-2/5 font-semibold">Expiry Date :</span>
+                <input
+                  type="date"
+                  placeholder="Expiry Date"
+                  value={newFood.expiryDate}
+                  onChange={(e) =>
+                    setNewFood({ ...newFood, expiryDate: e.target.value })
+                  }
+                  className="border p-2 w-full"
+                />
+              </label>
+              <label className="flex items-center gap-2">
+                <span className="w-2/5 font-semibold">Type :</span>
+                <select
+                  value={newFood.type}
+                  onChange={(e) =>
+                    setNewFood({
+                      ...newFood,
+                      type: e.target.value as "solid" | "liquid",
+                    })
+                  }
+                  className="border p-2 w-full"
+                >
+                  <option value="solid">Solid</option>
+                  <option value="liquid">Liquid</option>
+                </select>
+              </label>
             </div>
             <div id="buttons" className="flex gap-4">
               <button
@@ -222,46 +234,58 @@ const Popup: React.FC<PopupProps> = ({
           <>
             {/* Edit Food Form */}
             <div id="inputs" className="flex flex-col gap-4 h-full">
-              <input
-                type="text"
-                placeholder="Name"
-                value={newFood.name}
-                onChange={(e) =>
-                  setNewFood({ ...newFood, name: e.target.value })
-                }
-                className="border p-2 w-full"
-              />
-              <input
-                type="text"
-                placeholder="Description"
-                value={newFood.description}
-                onChange={(e) =>
-                  setNewFood({ ...newFood, description: e.target.value })
-                }
-                className="border p-2 w-full"
-              />
-              <input
-                type="date"
-                placeholder="Expiry Date"
-                value={newFood.expiryDate}
-                onChange={(e) =>
-                  setNewFood({ ...newFood, expiryDate: e.target.value })
-                }
-                className="border p-2 w-full"
-              />
-              <select
-                value={newFood.type}
-                onChange={(e) =>
-                  setNewFood({
-                    ...newFood,
-                    type: e.target.value as "solid" | "liquid",
-                  })
-                }
-                className="border p-2 w-full"
-              >
-                <option value="solid">Solid</option>
-                <option value="liquid">Liquid</option>
-              </select>
+              <label className="flex items-center gap-2">
+                <span className="w-2/5 font-semibold">Name :</span>
+                <input
+                  type="text"
+                  placeholder="Name"
+                  value={newFood.name}
+                  onChange={(e) =>
+                    setNewFood({ ...newFood, name: e.target.value })
+                  }
+                  className="border p-2 w-full"
+                />
+              </label>
+              <label className="flex items-center gap-2">
+                <span className="w-2/5 font-semibold">Description :</span>
+                <input
+                  type="text"
+                  placeholder="Description"
+                  value={newFood.description}
+                  onChange={(e) =>
+                    setNewFood({ ...newFood, description: e.target.value })
+                  }
+                  className="border p-2 w-full"
+                />
+              </label>
+              <label className="flex items-center gap-2">
+                <span className="w-2/5 font-semibold">Expiry Date :</span>
+                <input
+                  type="date"
+                  placeholder="Expiry Date"
+                  value={newFood.expiryDate}
+                  onChange={(e) =>
+                    setNewFood({ ...newFood, expiryDate: e.target.value })
+                  }
+                  className="border p-2 w-full"
+                />
+              </label>
+              <label className="flex items-center gap-2">
+                <span className="w-2/5 font-semibold">Type :</span>
+                <select
+                  value={newFood.type}
+                  onChange={(e) =>
+                    setNewFood({
+                      ...newFood,
+                      type: e.target.value as "solid" | "liquid",
+                    })
+                  }
+                  className="border p-2 w-full"
+                >
+                  <option value="solid">Solid</option>
+                  <option value="liquid">Liquid</option>
+                </select>
+              </label>
             </div>
             <div id="buttons" className="flex gap-4">
               <button
