@@ -319,11 +319,11 @@ export default function Home() {
           </button>
         </div>
       </header>
-      <main className="h-[85%] flex">
+      <main className=" flex flex-col h-auto lg:h-[85%] lg:flex-row overflow-y-scroll">
         {/* Desktop left section - Kitchen */}
         <section
           id="kitchen"
-          className="flex h-full w-full lg:w-1/2 flex-col justify-end items-center px-8"
+          className="flex h-[75vh] lg:h-full w-full lg:w-1/2 flex-col justify-end items-center px-8"
           style={{
             backgroundImage:
               "linear-gradient(to bottom, rgba(255, 255, 255, 0) 50%, rgba(255, 255, 255, 1) 90%), linear-gradient(to right, #fef08a, #facc15)",
@@ -363,7 +363,7 @@ export default function Home() {
         {/* Desktop right section - Recipe Generator */}
         <section
           id="recipe-generator"
-          className="hidden lg:flex h-full w-1/2 bg-gray-200 flex-col justify-start items-center gap-4 py-8 px-8"
+          className="w-full flex h-[85vh] lg:w-1/2 bg-white flex-col justify-start items-center gap-4 p-4 lg:p-8"
         >
           <h2 className="text-xl font-bold">Recipe Generator</h2>
           {/* Recipe Configuration */}
@@ -372,7 +372,10 @@ export default function Home() {
             className="flex flex-col w-full items-start gap-2"
           >
             {/* Drop Down for Main Ingredient */}
-            <div id="recipe-input" className="flex justify-between w-full px-2">
+            <div
+              id="recipe-input"
+              className="flex flex-col lg:flex-row justify-between w-full px-2"
+            >
               <div id="main-ingredient" className="flex gap-2">
                 <label className="flex items-center text-gray-700">
                   Main Ingredient:
@@ -383,10 +386,10 @@ export default function Home() {
                     value={inputValue}
                     onChange={(e) => setInputValue(e.target.value)}
                     placeholder="Start typing..."
-                    className="border border-gray-300 rounded p-2 focus:outline-none focus:border-blue-500 w-[300px]"
+                    className="border border-gray-300 rounded p-2 focus:outline-none focus:border-blue-500 w-[200px] lg:w-[300px]"
                   />
                   {isDropdownOpen && (
-                    <ul className="absolute z-5 bg-white border border-gray-300 w-[300px] max-h-40 mt-10 overflow-y-scroll">
+                    <ul className="absolute z-5 bg-white border border-gray-300 w-[200px] lg:w-[300px] max-h-40 mt-10 overflow-y-scroll">
                       {filteredIngredients.map((ingredient) => {
                         const isAvailable = fridgeData.shelf
                           .concat(fridgeData.fridge, fridgeData.freezer)
@@ -440,48 +443,51 @@ export default function Home() {
               Generate Recipe
             </button>
           </div>
-
-          {/* Recipe Display */}
-          {recipe.image_url != "" && (
-            <div
-              id="recipe-display"
-              className="h-full overflow-y-scroll scrollbar-hide"
-            >
-              <div id="title-ing-img" className="flex justify-between">
-                <div id="title-ing" className="flex flex-col w-1/2 xl:w-1/3">
-                  <h3 className="w-full text-4xl xl:text-5xl font-bold mb-4">
-                    {recipe.title}
-                  </h3>
-                  <div className="w-full">
-                    <h4 className="text-xl font-semibold mb-2">Ingredients:</h4>
-                    <ul className="list-disc pl-5">
-                      {recipe.ingredients?.map((ingredient, index) => (
-                        <li key={index}>{ingredient}</li>
-                      ))}
-                    </ul>
+          <div
+            id="recipe-display"
+            className="w-full h-auto overflow-y-scroll rounded-lg shadow-2xl"
+          >
+            {/* Recipe Display */}
+            {recipe.image_url != "" && (
+              <>
+                <div id="title-ing-img" className="flex justify-between">
+                  <div id="title-ing" className="flex flex-col w-3/5 lg:p-4">
+                    <h3 className="w-full text-4xl xl:text-5xl font-bold mb-4">
+                      {recipe.title}
+                    </h3>
+                    <div className="w-full">
+                      <h4 className="text-xl font-semibold mb-2">
+                        Ingredients:
+                      </h4>
+                      <ul className="list-disc pl-5">
+                        {recipe.ingredients?.map((ingredient, index) => (
+                          <li key={index}>{ingredient}</li>
+                        ))}
+                      </ul>
+                    </div>
+                  </div>
+                  <div id="img" className="w-2/5 aspect-square">
+                    <img
+                      src={recipe.image_url}
+                      alt={recipe.title}
+                      className="w-full h-auto object-cover rounded-bl-full shadow-md"
+                    />
                   </div>
                 </div>
-                <div id="img" className="w-1/2 xl:w-2/3 aspect-square">
-                  <img
-                    src={recipe.image_url}
-                    alt={recipe.title}
-                    className="w-full h-auto object-cover rounded-bl-full"
-                  />
-                </div>
-              </div>
 
-              <div className="mt-4">
-                <h3 className="text-xl font-semibold mb-2">Steps:</h3>
-                <ol className="list-decimal pl-5">
-                  {recipe.steps?.map((step, index) => (
-                    <li key={index} className="mb-2">
-                      {step}
-                    </li>
-                  ))}
-                </ol>
-              </div>
-            </div>
-          )}
+                <div id="steps" className="p-4">
+                  <h3 className="text-xl font-semibold mb-2">Steps:</h3>
+                  <ol className="list-decimal pl-5">
+                    {recipe.steps?.map((step, index) => (
+                      <li key={index} className="mb-2">
+                        {step}
+                      </li>
+                    ))}
+                  </ol>
+                </div>
+              </>
+            )}
+          </div>
         </section>
         {activeStorage && (
           <Popup

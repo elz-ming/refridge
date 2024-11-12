@@ -55,8 +55,8 @@ export async function POST(req: NextRequest) {
             } else {
               const substitute = ingredient.substitutes?.[0];
               return substitute
-                ? `( substitute ) ${ingredient.name}, ${ingredient.measure} -> ${substitute.ingredient}, ${substitute.measure}`
-                : `( missing ) ${ingredient.name}, ${ingredient.measure}`; // No substitute available
+                ? `(s) ${ingredient.name}, ${ingredient.measure} -> ${substitute.ingredient}, ${substitute.measure}`
+                : `(m) ${ingredient.name}, ${ingredient.measure}`; // No substitute available
             }
           } else {
             return `${ingredient.name}, ${ingredient.measure}`;
