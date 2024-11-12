@@ -151,6 +151,11 @@ const Popup: React.FC<PopupProps> = ({
                   }
                   className="border p-2 w-full"
                 />
+                {!newFood.expiryDate && (
+                  <span className="absolute inset-y-0 left-3 text-gray-400 pointer-events-none">
+                    Expiry Date
+                  </span>
+                )}
               </label>
               <label className="flex items-center gap-2">
                 <span className="w-2/5 font-semibold">Type :</span>
