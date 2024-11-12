@@ -445,7 +445,7 @@ export default function Home() {
           </div>
           <div
             id="recipe-display"
-            className="w-full h-auto overflow-y-scroll rounded-lg shadow-2xl"
+            className="w-full h-auto overflow-y-scroll rounded-lg shadow-2xl text-black"
           >
             {/* Recipe Display */}
             {recipe.image_url != "" && (
