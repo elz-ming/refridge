@@ -321,7 +321,7 @@ export default function Home() {
       </header>
       <main className="h-[85%] flex">
         {/* Desktop left section - Kitchen */}
-        <div
+        <section
           id="kitchen"
           className="flex h-full w-full lg:w-1/2 flex-col justify-end items-center px-8"
           style={{
@@ -358,10 +358,10 @@ export default function Home() {
               handleOpenPopup={handleOpenPopup}
             />
           </div>
-        </div>
+        </section>
 
         {/* Desktop right section - Recipe Generator */}
-        <div
+        <section
           id="recipe-generator"
           className="hidden lg:flex h-full w-1/2 bg-gray-200 flex-col justify-start items-center gap-4 py-8 px-8"
         >
@@ -369,66 +369,73 @@ export default function Home() {
           {/* Recipe Configuration */}
           <div
             id="recipe-configuration"
-            className="flex w-full justify-between items-start"
+            className="flex flex-col w-full items-start gap-2"
           >
             {/* Drop Down for Main Ingredient */}
-            <div className="flex gap-2">
-              <label className="flex items-center text-gray-700">
-                Main Ingredient:
-              </label>
-              <div id="dropdown-container" className="flex flex-col">
-                <input
-                  type="text"
-                  value={inputValue}
-                  onChange={(e) => setInputValue(e.target.value)}
-                  placeholder="Start typing..."
-                  className="border border-gray-300 rounded p-2 focus:outline-none focus:border-blue-500 w-[300px]"
-                />
-                {isDropdownOpen && (
-                  <ul className="absolute z-5 bg-white border border-gray-300 w-[300px] max-h-40 mt-10 overflow-y-scroll">
-                    {filteredIngredients.map((ingredient) => {
-                      const isAvailable = fridgeData.shelf
-                        .concat(fridgeData.fridge, fridgeData.freezer)
-                        .some((food) => food.name.toLowerCase() === ingredient);
-                      return (
-                        <li
-                          key={ingredient}
-                          onClick={() => handleIngredientSelect(ingredient)}
-                          className={`h-10 p-2 cursor-pointer hover:bg-gray-200 ${
-                            isAvailable ? "text-black" : "text-gray-400"
-                          }`}
-                        >
-                          {ingredient}
-                          <span
-                            className={`ml-2 ${
-                              isAvailable ? "text-green-600" : "text-gray-400"
+            <div id="recipe-input" className="flex justify-between w-full px-2">
+              <div id="main-ingredient" className="flex gap-2">
+                <label className="flex items-center text-gray-700">
+                  Main Ingredient:
+                </label>
+                <div id="dropdown-container" className="flex flex-col">
+                  <input
+                    type="text"
+                    value={inputValue}
+                    onChange={(e) => setInputValue(e.target.value)}
+                    placeholder="Start typing..."
+                    className="border border-gray-300 rounded p-2 focus:outline-none focus:border-blue-500 w-[300px]"
+                  />
+                  {isDropdownOpen && (
+                    <ul className="absolute z-5 bg-white border border-gray-300 w-[300px] max-h-40 mt-10 overflow-y-scroll">
+                      {filteredIngredients.map((ingredient) => {
+                        const isAvailable = fridgeData.shelf
+                          .concat(fridgeData.fridge, fridgeData.freezer)
+                          .some(
+                            (food) => food.name.toLowerCase() === ingredient
+                          );
+                        return (
+                          <li
+                            key={ingredient}
+                            onClick={() => handleIngredientSelect(ingredient)}
+                            className={`h-10 p-2 cursor-pointer hover:bg-gray-200 ${
+                              isAvailable ? "text-black" : "text-gray-400"
                             }`}
                           >
-                            {isAvailable ? "Available" : "Unavailable"}
-                          </span>
-                        </li>
-                      );
-                    })}
-                  </ul>
-                )}
+                            {ingredient}
+                            <span
+                              className={`ml-2 ${
+                                isAvailable ? "text-green-600" : "text-gray-400"
+                              }`}
+                            >
+                              {isAvailable ? "Available" : "Unavailable"}
+                            </span>
+                          </li>
+                        );
+                      })}
+                    </ul>
+                  )}
+                </div>
+              </div>
+              {/* Suggest Substitution Radio Button */}
+              <div className="flex items-center">
+                <label className="flex items-center">
+                  <input
+                    type="checkbox"
+                    checked={suggestSubstitution}
+                    onChange={() =>
+                      setSuggestSubstitution(!suggestSubstitution)
+                    } // Toggle true/false
+                    className="mr-2"
+                  />
+                  Suggest substitution
+                </label>
               </div>
             </div>
-            {/* Suggest Substitution Radio Button */}
-            <div className="flex items-start">
-              <label className="flex items-center">
-                <input
-                  type="checkbox"
-                  checked={suggestSubstitution}
-                  onChange={() => setSuggestSubstitution(!suggestSubstitution)} // Toggle true/false
-                  className="mr-2"
-                />
-                Suggest substitution
-              </label>
-            </div>
+
             {/* Generate Recipe */}
             <button
               onClick={handleGenerateRecipe}
-              className="bg-blue-500 text-white px-4 py-2 rounded h-auto"
+              className="w-full bg-blue-500 text-white px-4 py-2 rounded h-auto"
             >
               Generate Recipe
             </button>
@@ -436,21 +443,33 @@ export default function Home() {
 
           {/* Recipe Display */}
           {recipe.image_url != "" && (
-            <div id="recipe-display" className="mt-8">
-              <h3 className="text-2xl font-bold mb-4">{recipe.title}</h3>
-              <img
-                src={recipe.image_url}
-                alt={recipe.title}
-                className="mb-4 max-w-full h-auto"
-              />
-              <div>
-                <h3 className="text-xl font-semibold mb-2">Ingredients:</h3>
-                <ul className="list-disc pl-5">
-                  {recipe.ingredients?.map((ingredient, index) => (
-                    <li key={index}>{ingredient}</li>
-                  ))}
-                </ul>
+            <div
+              id="recipe-display"
+              className="h-full overflow-y-scroll scrollbar-hide"
+            >
+              <div id="title-ing-img" className="flex justify-between">
+                <div id="title-ing" className="flex flex-col w-1/2 xl:w-1/3">
+                  <h3 className="w-full text-4xl xl:text-5xl font-bold mb-4">
+                    {recipe.title}
+                  </h3>
+                  <div className="w-full">
+                    <h4 className="text-xl font-semibold mb-2">Ingredients:</h4>
+                    <ul className="list-disc pl-5">
+                      {recipe.ingredients?.map((ingredient, index) => (
+                        <li key={index}>{ingredient}</li>
+                      ))}
+                    </ul>
+                  </div>
+                </div>
+                <div id="img" className="w-1/2 xl:w-2/3 aspect-square">
+                  <img
+                    src={recipe.image_url}
+                    alt={recipe.title}
+                    className="w-full h-auto object-cover rounded-bl-full"
+                  />
+                </div>
               </div>
+
               <div className="mt-4">
                 <h3 className="text-xl font-semibold mb-2">Steps:</h3>
                 <ol className="list-decimal pl-5">
@@ -463,7 +482,7 @@ export default function Home() {
               </div>
             </div>
           )}
-        </div>
+        </section>
         {activeStorage && (
           <Popup
             storage={activeStorage}
