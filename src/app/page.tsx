@@ -35,12 +35,12 @@ function HoverImage({
     <>
       <div id={`${section}-title`} className="w-2/5 h-full">
         <h2
-          className={`flex justify-center w-1/2 cursor-pointer rounded-lg p-2  transform transition-transform duration-300 ${
+          className={`flex justify-center w-1/2 cursor-pointer rounded-lg p-2  transform transition-transform duration-300 shadow-lg ${
             isHovered
-              ? "bg-orange-500 scale-110 text-white shadow-lg text-lg"
+              ? "bg-orange-500 scale-110 text-white text-lg"
               : "bg-white text-md"
           }`}
-          onClick={() => handleOpenPopup("shelf")}
+          onClick={() => handleOpenPopup(section)}
           onMouseEnter={() => setIsHovered(true)}
           onMouseLeave={() => setIsHovered(false)}
         >
@@ -50,7 +50,7 @@ function HoverImage({
       <div
         id={`${section}-img`}
         className="w-2/3 lg:w-3/5 h-full cursor-pointer relative overflow-hidden"
-        onClick={() => handleOpenPopup("shelf")}
+        onClick={() => handleOpenPopup(section)}
       >
         <img
           className="w-full h-full object-fill"
