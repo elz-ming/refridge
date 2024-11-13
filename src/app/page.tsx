@@ -82,6 +82,7 @@ export default function Home() {
   const [mainIngredient, setMainIngredient] = useState<string | null>(null);
   const [pantryIngredients, setPantryIngredients] = useState<string[]>([]);
   const [suggestSubstitution, setSuggestSubstitution] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const [recipe, setRecipe] = useState<Recipe>({
     title: "",
     ingredients: [],
@@ -271,6 +272,8 @@ export default function Home() {
       router.push("/signin");
     }
 
+    setIsLoading(true);
+
     const payload = {
       main_ingredients: mainIngredient ? [mainIngredient] : [],
       pantry_ingredients: pantryIngredients,
@@ -301,6 +304,8 @@ export default function Home() {
       }
     } catch (error) {
       console.error("Error generating recipe:", error);
+    } finally {
+      setIsLoading(false); // Stop loading
     }
   };
 
@@ -453,12 +458,18 @@ export default function Home() {
               Generate Recipe
             </button>
           </div>
+
+          {/* Recipe Display */}
           <div
             id="recipe-display"
-            className="w-full h-auto overflow-y-scroll rounded-lg shadow-2xl text-black"
+            className="w-full h-full overflow-y-scroll rounded-lg shadow-2xl text-black"
           >
-            {/* Recipe Display */}
-            {recipe.image_url != "" && (
+            {isLoading ? (
+              // Show a loading spinner while loading
+              <div className="flex justify-center items-center h-full">
+                <div className="w-8 h-8 border-4 border-blue-500 border-t-transparent rounded-full animate-spin"></div>
+              </div>
+            ) : recipe.image_url ? (
               <>
                 <div id="title-ing-img" className="flex justify-between">
                   <div id="title-ing" className="flex flex-col w-3/5 lg:p-4">
@@ -496,6 +507,11 @@ export default function Home() {
                   </ol>
                 </div>
               </>
+            ) : (
+              // Placeholder when no recipe is displayed
+              <div className="flex justify-center items-center h-full">
+                <p className="text-gray-500">No recipe generated yet.</p>
+              </div>
             )}
           </div>
         </section>
