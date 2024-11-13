@@ -33,7 +33,10 @@ function HoverImage({
 
   return (
     <>
-      <div id={`${section}-title`} className="w-2/5 h-full">
+      <div
+        id={`${section}-title`}
+        className="hidden xl:block xl:w-1/5 2xl:w-2/5 h-auto"
+      >
         <h2
           className={`flex justify-center w-1/2 cursor-pointer rounded-lg p-2  transform transition-transform duration-300 shadow-lg ${
             isHovered
@@ -49,7 +52,7 @@ function HoverImage({
       </div>
       <div
         id={`${section}-img`}
-        className="w-2/3 lg:w-3/5 h-full cursor-pointer relative overflow-hidden"
+        className="w-full md:w-2/3 xl:w-4/5 2xl:w-3/5 h-full cursor-pointer relative overflow-hidden"
         onClick={() => handleOpenPopup(section)}
       >
         <img
@@ -338,13 +341,13 @@ export default function Home() {
         {/* Desktop left section - Kitchen */}
         <section
           id="kitchen"
-          className="flex h-[75vh] lg:h-full w-full lg:w-1/2 flex-col justify-end items-center px-8"
+          className="flex h-[75vh] lg:h-full w-full 2xl:w-1/2 flex-col justify-end items-center px-8"
           style={{
             backgroundImage:
               "linear-gradient(to bottom, rgba(255, 255, 255, 0) 50%, rgba(255, 255, 255, 1) 90%), linear-gradient(to right, #fef08a, #facc15)",
           }}
         >
-          <div id="shelf-row" className="flex w-5/6 h-[25%]">
+          <div id="shelf-row" className="flex w-full h-[25%] justify-center">
             <HoverImage
               section="shelf"
               defaultImage="/images/shelf-close.png"
@@ -354,7 +357,7 @@ export default function Home() {
             />
           </div>
 
-          <div id="fridge-row" className="flex w-5/6 h-[40%]">
+          <div id="fridge-row" className="flex w-full h-[40%] justify-center">
             <HoverImage
               section="fridge"
               defaultImage="/images/fridge-close.png"
@@ -364,7 +367,7 @@ export default function Home() {
             />
           </div>
 
-          <div id="freezer-row" className="flex w-5/6 h-[25%]">
+          <div id="freezer-row" className="flex w-full h-[25%] justify-center">
             <HoverImage
               section="freezer"
               defaultImage="/images/freezer-close.png"
@@ -378,7 +381,7 @@ export default function Home() {
         {/* Desktop right section - Recipe Generator */}
         <section
           id="recipe-generator"
-          className="w-full flex h-[85vh] lg:w-1/2 bg-white flex-col justify-start items-center gap-4 p-4 lg:p-8"
+          className="w-full flex h-[85vh] 2xl:w-1/2 bg-white flex-col justify-start items-center gap-4 p-4 lg:p-8"
         >
           <h2 className="text-xl font-bold">Recipe Generator</h2>
           {/* Recipe Configuration */}
