@@ -141,6 +141,11 @@ export default function Home() {
       router.push("/signin");
     }
 
+    if (!item.name.trim()) {
+      alert("Please fill in the food name");
+      return;
+    }
+
     if (activeStorage) {
       const response = await fetch(`/api/home/${activeStorage}`, {
         method: "POST",
@@ -185,6 +190,11 @@ export default function Home() {
   const handleEditFood = async (index: number, updatedItem: Food) => {
     if (!isLoggedIn) {
       router.push("/signin");
+    }
+
+    if (!updatedItem.name.trim()) {
+      alert("Please fill in the food name");
+      return;
     }
 
     if (activeStorage) {
@@ -305,11 +315,11 @@ export default function Home() {
     <>
       <header
         className="flex justify-between
-       items-center w-full h-[10%] px-4 bg-gray-800"
+       items-center w-full h-[10%] px-4 bg-black"
       >
         {/* Login/Logout Button */}
         <div></div>
-        <h1 className="text-4xl font-bold text-white">PantryAI</h1>
+        <h1 className="text-4xl font-bold text-white">Intelli Foods</h1>
         <div className="flex w-auto h-auto">
           <button
             onClick={handleLoginLogout}
@@ -500,7 +510,7 @@ export default function Home() {
           />
         )}
       </main>
-      <footer className="h-[5%] w-full bg-gray-800"></footer>
+      <footer className="h-[5%] w-full bg-black"></footer>
     </>
   );
 }

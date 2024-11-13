@@ -120,19 +120,20 @@ const Popup: React.FC<PopupProps> = ({
                 <span className="w-2/5 font-semibold">Name :</span>
                 <input
                   type="text"
-                  placeholder="Name"
+                  placeholder="required"
                   value={newFood.name}
                   onChange={(e) =>
                     setNewFood({ ...newFood, name: e.target.value })
                   }
                   className="border p-2 w-full"
+                  required
                 />
               </label>
               <label className="flex items-center gap-2">
                 <span className="w-2/5 font-semibold">Description :</span>
                 <input
                   type="text"
-                  placeholder="Description"
+                  placeholder="( optional )"
                   value={newFood.description}
                   onChange={(e) =>
                     setNewFood({ ...newFood, description: e.target.value })
@@ -243,19 +244,20 @@ const Popup: React.FC<PopupProps> = ({
                 <span className="w-2/5 font-semibold">Name :</span>
                 <input
                   type="text"
-                  placeholder="Name"
+                  placeholder="required"
                   value={newFood.name}
                   onChange={(e) =>
                     setNewFood({ ...newFood, name: e.target.value })
                   }
                   className="border p-2 w-full"
+                  required
                 />
               </label>
               <label className="flex items-center gap-2">
                 <span className="w-2/5 font-semibold">Description :</span>
                 <input
                   type="text"
-                  placeholder="Description"
+                  placeholder="( optional )"
                   value={newFood.description}
                   onChange={(e) =>
                     setNewFood({ ...newFood, description: e.target.value })
