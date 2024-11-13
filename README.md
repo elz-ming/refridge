@@ -1,36 +1,80 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Intelli Foods
 
-## Getting Started
+Intelli Foods is an innovative smart kitchen helper designed to make managing your pantry more efficient and reduce food waste. This tool enables users to keep track of food items stored in the fridge, freezer, and shelf, along with their expiry dates.
 
-First, run the development server:
+[Live Project](https://intelli-foods.vercel.app/)
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+Use following credentials to login, or create your own account!
+email: intelli@gmail.com
+password: foods
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Features
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### Pantry Management
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+- **Track Food Items**: Easily log food items into the fridge, freezer, or shelf.
+- **Expiry Date Monitoring**: Keep track of expiry dates to minimize food spoilage and wastage.
 
-## Learn More
+### AI-Powered Recipe Recommendations
 
-To learn more about Next.js, take a look at the following resources:
+- **Recipe Suggestions**: A fine-tuned Large Language Model (LLM) analyzes your pantry's contents to recommend recipes.
+- **Ingredient Substitutions**: When some ingredients are missing, Intelli Foods suggests substitutions to help you make the most of what you have.
+- **Clear Out the Fridge**: Recipes are tailored to help you utilize existing food, minimizing leftovers and waste.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+### Sustainability Impact
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+By reducing expired and rotten food, Intelli Foods contributes to the global goal of minimizing food waste, aligning with the United Nations Sustainable Development Goals (SDG).
 
-## Deploy on Vercel
+## Technologies Used
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+- **Frontend**: Built with modern web technologies to provide a user-friendly interface.
+- **Backend**: Manages data storage for food items and expiry dates.
+- **AI Integration**: Powered by an LLM for personalized recipe recommendations and substitutions.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## Installation
+
+To set up Intelli Foods locally:
+
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/your-username/intelli-foods.git
+   ```
+2. Navigate to the project directory:
+   ```bash
+   cd intelli-foods
+   ```
+3. Install dependencies:
+   ```bash
+   npm install
+   ```
+4. Start the development server:
+   ```bash
+   npm run dev
+   ```
+5. Create a .env file in root directory, with the following content:
+
+   ```bash
+   MONGODB_URI=<Your MongoDB Atlas Database connection string>
+   NEXT_IRON_COOKIE_PASSWORD=a_very_secure_32_character_long_password_12345
+   ```
+
+6. Access the app in your browser at `http://localhost:3000`.
+
+## Usage
+
+1. Add items to your pantry by specifying their location (fridge, freezer, or shelf) and expiry dates.
+2. Use the recipe generator to get meal suggestions based on available ingredients.
+3. Apply substitutions for missing ingredients as recommended by the AI.
+4. Keep your pantry organized and reduce waste effectively.
+
+## Contributing
+
+Contributions are welcome! If you’d like to contribute, please fork the repository and submit a pull request.
+
+## License
+
+This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
+
+## Acknowledgments
+
+Intelli Foods is inspired by the need to reduce food waste and promote sustainability in everyday life. Special thanks to all contributors and supporters of this project.
