@@ -54,8 +54,18 @@ export default function SignUp() {
 
   return (
     <>
-      <header className="h-[10%] w-full bg-gray-800"></header>
-      <main className="h-[80%] flex items-center justify-center bg-[#ded472]">
+      <header
+        className="flex justify-center
+       items-center w-full h-[10%] px-4 bg-black"
+      >
+        <h1
+          className="text-4xl font-bold text-white cursor-pointer"
+          onClick={() => router.push("/")}
+        >
+          Intelli Foods
+        </h1>
+      </header>
+      <main className="h-[85%] flex items-center justify-center bg-[#ded472]">
         <div className="signup-container bg-white p-8 rounded-lg">
           <h1 className="text-2xl font-bold text-center mb-6 text-gray-800">
             Sign Up
@@ -112,7 +122,7 @@ export default function SignUp() {
           </p>
         </div>
       </main>
-      <footer className="h-[10%] w-full bg-gray-800"></footer>
+      <footer className="h-[5%] w-full bg-black"></footer>
     </>
   );
 }

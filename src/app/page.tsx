@@ -327,11 +327,15 @@ export default function Home() {
       >
         {/* Login/Logout Button */}
         <div></div>
-        <h1 className="text-4xl font-bold text-white">Intelli Foods</h1>
+        <h1 className="text-4xl font-bold text-white cursor-pointer">
+          Intelli Foods
+        </h1>
         <div className="flex w-auto h-auto">
           <button
             onClick={handleLoginLogout}
-            className="px-4 py-2 bg-blue-500 text-white rounded"
+            className={`px-4 py-2 text-white rounded ${
+              isLoggedIn ? "bg-red-500" : "bg-blue-500"
+            }`}
           >
             {isLoggedIn ? "Log Out" : "Log In"}
           </button>
@@ -439,14 +443,14 @@ export default function Home() {
               </div>
               {/* Suggest Substitution Radio Button */}
               <div className="flex items-center">
-                <label className="flex items-center">
+                <label className="flex items-center cursor-pointer">
                   <input
                     type="checkbox"
                     checked={suggestSubstitution}
                     onChange={() =>
                       setSuggestSubstitution(!suggestSubstitution)
                     } // Toggle true/false
-                    className="mr-2"
+                    className="mr-2 cursor-pointer"
                   />
                   Suggest substitution
                 </label>
