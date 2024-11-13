@@ -5,8 +5,9 @@ Intelli Foods is an innovative smart kitchen helper designed to make managing yo
 [Live Project](https://intelli-foods.vercel.app/)
 
 Use following credentials to login, or create your own account!
-email: intelli@gmail.com
-password: foods
+
+- **email**: intelli@gmail.com
+- **password**: foods
 
 ## Features
 
