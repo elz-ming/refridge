@@ -1,7 +1,0 @@
-{
-  "functions": {
-    "src/app/api/home/recipes/route.js": {
-      "maxDuration": 60
-    }
-  }
-}

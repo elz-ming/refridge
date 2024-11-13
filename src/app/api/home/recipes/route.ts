@@ -14,6 +14,9 @@ interface Ingredient {
   substitutes?: Substitute[];
 }
 
+export const maxDuration = 60;
+export const dynamic = "force-dynamic";
+
 export async function POST(req: NextRequest) {
   const input = await req.json();
   const substitution = input.suggest_substitution;
