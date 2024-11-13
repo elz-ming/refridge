@@ -1,6 +1,6 @@
 {
   "functions": {
-    "src/app/api/home/recips/route.js": {
+    "src/app/api/home/recipes/route.js": {
       "maxDuration": 60
     }
   }
