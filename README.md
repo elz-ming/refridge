@@ -27,9 +27,9 @@ By reducing expired and rotten food, Intelli Foods contributes to the global goa
 
 ## Technologies Used
 
-- **Frontend**: Built with modern web technologies to provide a user-friendly interface.
-- **Backend**: Manages data storage for food items and expiry dates.
-- **AI Integration**: Powered by an LLM for personalized recipe recommendations and substitutions.
+- **Frontend**: Coded in NextJS and hosted on Vercel.
+- **Database**: MongoDB Atlas.
+- **Backend & AI Integration**: Refer to this repo for more information. [Repo](https://github.com/intelli-foods/intellifoods_backend)
 
 ## Installation
 
@@ -66,14 +66,6 @@ To set up Intelli Foods locally:
 2. Use the recipe generator to get meal suggestions based on available ingredients.
 3. Apply substitutions for missing ingredients as recommended by the AI.
 4. Keep your pantry organized and reduce waste effectively.
-
-## Contributing
-
-Contributions are welcome! If you’d like to contribute, please fork the repository and submit a pull request.
-
-## License
-
-This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
 
 ## Acknowledgments
 
